@@ -11,7 +11,14 @@ export default function Orders() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p className="status-msg">Loading orders...</p>;
+  if (loading) {
+    return (
+      <>
+        <div className="spinner" />
+        <p className="status-msg">Loading orders...</p>
+      </>
+    );
+  }
 
   return (
     <div className="page">

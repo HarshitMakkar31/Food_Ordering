@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
+import Toast from './components/Toast';
 import Home from './pages/Home';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
@@ -11,6 +12,7 @@ export default function App() {
   return (
     <>
       <Navbar />
+      <Toast />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />

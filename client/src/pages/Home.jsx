@@ -18,7 +18,14 @@ export default function Home() {
   const categories = ['All', ...new Set(foods.map((f) => f.category))];
   const visible = category === 'All' ? foods : foods.filter((f) => f.category === category);
 
-  if (loading) return <p className="status-msg">Loading menu...</p>;
+  if (loading) {
+    return (
+      <>
+        <div className="spinner" />
+        <p className="status-msg">Loading menu...</p>
+      </>
+    );
+  }
   if (error) return <p className="status-msg error">{error}</p>;
 
   return (

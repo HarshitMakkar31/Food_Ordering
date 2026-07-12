@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 
 const CartContext = createContext(null);
 
@@ -7,10 +7,18 @@ export function CartProvider({ children }) {
     const stored = localStorage.getItem('cart');
     return stored ? JSON.parse(stored) : [];
   });
+  const [toast, setToast] = useState(null);
+  const toastTimer = useRef(null);
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(items));
   }, [items]);
+
+  function showToast(message) {
+    setToast({ message, id: Date.now() });
+    clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToast(null), 2200);
+  }
 
   function addToCart(food) {
     setItems((prev) => {
@@ -22,6 +30,7 @@ export function CartProvider({ children }) {
       }
       return [...prev, { food: food._id, name: food.name, price: food.price, quantity: 1 }];
     });
+    showToast(`${food.name} added to cart`);
   }
 
   function updateQuantity(foodId, quantity) {
@@ -45,7 +54,7 @@ export function CartProvider({ children }) {
 
   return (
     <CartContext.Provider
-      value={{ items, addToCart, updateQuantity, removeFromCart, clearCart, totalAmount, totalCount }}
+      value={{ items, addToCart, updateQuantity, removeFromCart, clearCart, totalAmount, totalCount, toast }}
     >
       {children}
     </CartContext.Provider>
